@@ -1,0 +1,73 @@
+---
+title: "documentation for the transform function"
+author: "31326"
+date: "2023-10-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Description
+
+This is documentation for demonstrating the usage and function of the transform_data in the repo
+
+first we will look at our target data set iris
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(tidyverse)
+library(knitr)
+```
+
+```{r dataset}
+df <- iris
+kable(head(iris))
+```
+
+we will the check the distribution of the iris data set, we found that there are not normalised
+
+```{r}
+hist(df$Sepal.Length)
+hist(df$Sepal.Width)
+hist(df$Petal.Length)
+hist(df$Petal.Width)
+```
+
+we would transform the data by the transform_data function, with take a data and a method argument, indicating the dataset and method. we can use Z score or log to transform the function
+
+```{r}
+# transform_data.R
+# this function is created for the iris dataset build-in within R, it normalize the 4 meaures of the iris dataset for potentiall categorisation tasks
+# we are giving this function with a method argument to choose the type of normalisation to use
+transform_data <- function(data, method = "scale") { 
+  # Perform scale transformation
+  if (method == "scale") {
+    # existing scaling
+    data$Sepal.Length <- scale(data$Sepal.Length) # normalise Sepal.Length with scale
+    data$Sepal.Width <- scale(data$Sepal.Width) # normalise Sepal.Length with scale
+    data$Petal.Length <- scale(data$Petal.Length) # normalise Sepal.Length with scale
+    data$Petal.Width <- scale(data$Petal.Width) # normalise Sepal.Length with scale
+  } else if (method == "log") {
+    # logarithmic transformation
+    data$Sepal.Length <- log(data$Sepal.Length) # normalise Sepal.Length with log
+    data$Sepal.Width <- log(data$Sepal.Width) # normalise Sepal.Length with log
+    data$Petal.Length <- log(data$Petal.Length) # normalise Sepal.Length with log
+    data$Petal.Width <- log(data$Petal.Width) # normalise Sepal.Length with log
+  }
+
+  return(data)
+}
+```
+
+we will use our function on the iris dataset, we see that the varibales has been centred
+
+```{r}
+df_trans <- transform_data(iris, method = "scale")
+hist(df_trans$Sepal.Length)
+hist(df_trans$Sepal.Width)
+hist(df_trans$Petal.Length)
+hist(df_trans$Petal.Width)
+```
